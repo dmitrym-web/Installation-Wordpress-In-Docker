@@ -35,8 +35,10 @@ services:
     image: nginx:1.27.2-alpine
     container_name: webserver
     restart: unless-stopped
+    env_file: .env
     ports:
       - "80:80"
+      - "443:443"
     volumes:
       - wordpress:/var/www/html
       - ./nginx-conf:/etc/nginx/conf.d
@@ -52,8 +54,7 @@ services:
     volumes:
       - certbot-etc:/etc/letsencrypt
       - wordpress:/var/www/html
-    command: certonly --webroot --webroot-path=/var/www/html --email ${EMAIL} --agree-tos --no-eff-email --staging -d ${DOMAIN} -d www.${DOMAIN}
-    entrypoint: /bin/sh -c "certbot certonly --webroot --webroot-path=/var/www/html --email ${EMAIL} --agree-tos --no-eff-email --staging -d ${DOMAIN} -d www.${DOMAIN};"
+    command: certonly --webroot --webroot-path=/var/www/html --email nvrsk.yii2@gmail.com --agree-tos --no-eff-email --force-renewal -d radio.kutkh.site -d www.radio.kutkh.site
 
 volumes:
   certbot-etc:
